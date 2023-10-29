@@ -36,24 +36,24 @@ char* check(char buffer[]){
 	//char* filename=buffer;
 	
 	char compile_command[100];
-	snprintf(compile_command, sizeof(compile_command), "gcc -o test %s 2> Compile_Out.txt", buffer);
+	snprintf(compile_command, sizeof(compile_command), "gcc -o test %s 2> Server_files/Compile_Out.txt", buffer);
 
 	int compilerror=system(compile_command);
 	
 	if(compilerror){
-		char *ans=fun("./Compile_Out.txt","Compile Error\n");
+		char *ans=fun("Server_files/Compile_Out.txt","Compile Error\n");
 		return ans;
 	}
-	int runerror=system("./test >Run_Out.txt 2>Run_Err.txt");
+	int runerror=system("./test >Server_files/Run_Out.txt 2>Server_files/Run_Err.txt");
 	if(runerror){
-		char* ans=fun("./Run_Err.txt","Runtime Error\n");
+		char* ans=fun("Server_files/Run_Err.txt","Runtime Error\n");
 		return ans;
 	}
 	
-	int differror=system("diff output.txt Run_Out.txt >diff.txt");
+	int differror=system("diff output.txt Server_files/Run_Out.txt >Server_files/diff.txt");
 	
 	if(differror){
-		char* ans=fun("./diff.txt","Output Error\n");
+		char* ans=fun("Server_files/diff.txt","Output Error\n");
 		return ans;
 	}
 	char* ans="Pass";
@@ -73,12 +73,14 @@ int main(int argc, char *argv[]) {
   char buffer[40960]; //buffer for reading and writing the messages
   struct sockaddr_in serv_addr, cli_addr; //structure for holding IP addresses
   int n;
-
+  
   if (argc < 2) {
     fprintf(stderr, "ERROR, no port provided\n");
     exit(1);
   }
 
+
+  system("mkdir -p Server_files");
   /* create socket */
   sockfd = socket(AF_INET, SOCK_STREAM, 0); 
   //AF_INET means Address Family of INTERNET. SOCK_STREAM creates TCP socket (as opposed to UDP socket)
@@ -133,9 +135,9 @@ while (1){
     if (n < 0)
       error("ERROR reading from socket");
       
-    int fd=open("./test-file.c",O_CREAT|O_RDONLY|O_WRONLY|O_TRUNC,S_IRWXU);
+    int fd=open("Server_files/test-file.c",O_CREAT|O_RDONLY|O_WRONLY|O_TRUNC,S_IRWXU);
     write(fd,buffer,n);
-    char buf[]="test-file.c";
+    char buf[]="Server_files/test-file.c";
     close(fd);
 
 
