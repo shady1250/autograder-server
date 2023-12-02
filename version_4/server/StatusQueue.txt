@@ -2,5 +2,3 @@
 ./submissions/17015086901203430903374.cpp,PROGRAM RAN,./outputs/17015086901203430903374.txt
 ./submissions/17015087182059051004748.cpp,RUNTIME ERROR,./runtime_error/17015087182059051004748.err
 ./submissions/17015087028124031815418.cpp,RUNTIME ERROR,./runtime_error/17015087028124031815418.err
-./submissions/17015093420184857491744.cpp,It is being processed, no file
-./submissions/17015093430281779461445.cpp,It is being processed, no file
