@@ -146,7 +146,8 @@ while(loopNum--){
   double end_loop=GetTime();
   double loop_time=end_loop-start_loop;
   double avg_res_time=sum/success;
-  double throughput=success/loop_time;
+  double throughput=(success+timeout_err)/loop_time;
+  double goodput=success/loop_time;
   printf("Error:%d\n",Error);
   printf("Timeout:%d\n",timeout_err);
   printf("request rate:%lf\n",req/loop_time);
@@ -156,5 +157,6 @@ while(loopNum--){
   printf("Loop time:%lf\n",loop_time);
   printf("Avg response time:%lf\n",avg_res_time);
   printf("throughput:%lf\n",throughput);
+  printf("Goodput:%lf\n",goodput);
   return 0;
 }

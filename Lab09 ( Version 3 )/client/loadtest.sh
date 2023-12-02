@@ -7,7 +7,7 @@ sleepTime=$3
 pids=()
 
 gcc -w -o client gradingclient.c -lpthread
-command="./client 10.130.154.49 5001 cfile.c $loopNum $sleepTime 5"
+command="./client 10.130.154.72 5001 cfile.c $loopNum $sleepTime 5"
 
 
 mkdir -p load_stats
@@ -15,7 +15,7 @@ mkdir -p load_stats
 touch load_stats/cpu_stat.txt
 > load_stats/cpu_stat.txt
 
-./client1 10.130.154.49 8080 &
+./client1 10.130.154.72 8080 &
 wait
 
 
@@ -27,7 +27,7 @@ done
 
 wait
 echo "Program ran"
-./client2 10.130.154.49 8081 &
+./client2 10.130.154.72 8081 &
 wait
 
 for ((i=2; i<=$numClients ; i++ ));
@@ -50,7 +50,7 @@ awk 'BEGIN{FS=":"; } { if($1 ~ /throughput/ ) sum+=$2; clients=$1; } END{ print 
 
 awk 'BEGIN{FS=":"} { if($1 ~ /Total time/ ) sum1+=$2; if($1 ~ /Successfull responses/ ) sum2+=$2; clients=$1; } END{ ans=sum1/sum2; print clients,ans; } ' load_stats/out1.txt >> stats/response.txt
 
-awk 'BEGIN{FS=":"; } { if($1 ~ /Successfull/ ) sum+=$2; if($1 ~ /Requests/ ) sum2+=$2; clients=$1; } END{ ans=sum/sum2; print clients,ans; }' load_stats/out1.txt >> stats/goodput.txt
+awk 'BEGIN{FS=":"; } { if($1 ~ /Goodput/ ) sum+=$2; clients=$1; } END{ print clients,sum; }' load_stats/out1.txt >> stats/goodput.txt
 
 awk 'BEGIN{FS=":"; } { if($1 ~ /Error/ ) sum+=$2; if($1 ~ /Requests/ ) sum2+=$2; clients=$1; } END{ ans=sum/sum2; print clients,ans; }' load_stats/out1.txt >> stats/error_rate.txt
 
